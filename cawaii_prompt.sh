@@ -41,7 +41,7 @@ function git_status_string () {
   local statuses=$(git status -s 2> /dev/null | sed 's/^ *//' | cut -d ' ' -f 1 | sort | uniq)
   if [ -z "$statuses" ]; then echo $CAWAII_PROMPT_STATUS_OK; return; fi
   if [ -z "${statuses/*U*/}" ]; then echo $CAWAII_PROMPT_STATUS_NG; return; fi
-  if [ -z "${statuses/*[RMA?]*/}" ]; then echo $CAWAII_PROMPT_STATUS_WARN; return; fi
+  if [ -z "${statuses/*[RMAD?]*/}" ]; then echo $CAWAII_PROMPT_STATUS_WARN; return; fi
   echo $CAWAII_PROMPT_STATUS_BUG
 }
 
