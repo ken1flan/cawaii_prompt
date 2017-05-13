@@ -22,7 +22,7 @@ function cawaii_prompt_preprocess () {
     if [ -z "$CAWAII_PROMPT_OLD_PS1" ]; then
       export CAWAII_PROMPT_OLD_PS1=$PS1
     fi
-    export PS1="$(last_command_status_string $last_command_status)${CAWAII_PROMPT_DIR_COLOR}\w${CAWAII_PROMPT_TURN_OFF_COLOR}[${CAWAII_PROMPT_BRANCH_COLOR}$(git rev-parse --abbrev-ref HEAD)${CAWAII_PROMPT_TURN_OFF_COLOR}$(git_status_string)]\n\D{%H:%M} $ "
+    export PS1="$(last_command_status_string $last_command_status)${CAWAII_PROMPT_DIR_COLOR}\w${CAWAII_PROMPT_TURN_OFF_COLOR}[${CAWAII_PROMPT_BRANCH_COLOR}$(git_branch_name)${CAWAII_PROMPT_TURN_OFF_COLOR}$(git_status_string)]\n\D{%H:%M} $ "
   fi
 }
 
@@ -43,6 +43,10 @@ function git_status_string () {
   if [ -z "${statuses/*U*/}" ]; then echo $CAWAII_PROMPT_STATUS_NG; return; fi
   if [ -z "${statuses/*[RMAD?]*/}" ]; then echo $CAWAII_PROMPT_STATUS_WARN; return; fi
   echo $CAWAII_PROMPT_STATUS_BUG
+}
+
+function git_branch_name () {
+  git rev-parse --abbrev-ref HEAD 2> /dev/null
 }
 
 PROMPT_COMMAND="cawaii_prompt_preprocess"
